@@ -66,6 +66,10 @@ body {
   .hero-metrics       { gap: 16px !important; }
 }
 @media (max-width: 768px) {
+  /* Dashboard mockup: override min-height for mobile */
+  .dashboard-mockup-root {
+    min-height: 360px !important;
+  }
   /* Hero panels: force full width and reduce horizontal padding */
   .hero-split > div {
     width: 100% !important;
@@ -77,15 +81,6 @@ body {
   .section-inner {
     padding-left: 24px !important;
     padding-right: 24px !important;
-  }
-  /* Dashboard mockup column */
-  .dashboard-col {
-    width: 100%;
-    padding-left: 24px;
-    padding-right: 24px;
-    box-sizing: border-box;
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 @media (max-width: 600px) {
