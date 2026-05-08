@@ -72,10 +72,12 @@ export default function WhatsAppChat() {
       </div>
 
       {/* Chat body */}
-      <div style={{
+      <div className="chat-body" style={{
         background: '#0d1117',
         padding: 16,
-        minHeight: 280,
+        height: 320,
+        overflowY: 'hidden',
+        overflowX: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         gap: 10,
