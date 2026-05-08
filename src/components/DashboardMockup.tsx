@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FileText, Calendar, BarChart2, Megaphone } from 'lucide-react'
 
 const statuses = ['Confirmada','Pendiente','Atendida']
 const statusColors: Record<string,string> = {
@@ -19,19 +20,26 @@ const citas = [
   { time: '2:00 PM',  name: 'Ana López',     status: 'Confirmada', color: '#25D366' },
   { time: '4:00 PM',  name: 'Carlos Ruiz',   status: 'Pendiente',  color: '#D4AF37' },
 ]
+const iaItems = [
+  { icon: <FileText size={15} strokeWidth={1.5} />, text: 'Genera tu script para hoy', badge: 'Listo',     badgeBg: 'rgba(34,197,94,0.18)',   badgeColor: '#22c55e' },
+  { icon: <Calendar size={15} strokeWidth={1.5} />, text: '3 citas confirmadas',        badge: 'Hoy',      badgeBg: 'rgba(96,165,250,0.18)',  badgeColor: '#60a5fa' },
+  { icon: <BarChart2 size={15} strokeWidth={1.5} />, text: 'Reporte semanal',           badge: 'Ver →',    badgeBg: 'rgba(255,255,255,0.08)', badgeColor: 'rgba(255,255,255,0.55)' },
+  { icon: <Megaphone size={15} strokeWidth={1.5} />, text: 'Publica a las 7 PM',       badge: 'Pendiente',badgeBg: 'rgba(245,158,11,0.18)',  badgeColor: '#f59e0b' },
+]
 const clientesList = [
-  { name: 'María García',  last: 'hace 2 min',   badge: 'VIP',     badgeColor: '#f59e0b', badgeBg: 'rgba(245,158,11,0.18)' },
-  { name: 'Roberto Díaz',  last: 'hace 1 hora',  badge: 'Regular', badgeColor: '#60a5fa', badgeBg: 'rgba(96,165,250,0.15)' },
-  { name: 'Ana López',     last: 'hace 3 horas', badge: 'Nuevo',   badgeColor: '#25D366', badgeBg: 'rgba(37,211,102,0.15)' },
-  { name: 'Carlos Ruiz',   last: 'ayer',         badge: 'Regular', badgeColor: '#60a5fa', badgeBg: 'rgba(96,165,250,0.15)' },
+  { initials: 'MG', avatarBg: '#2563eb', name: 'María García',  last: 'hace 5 min', badge: 'VIP',     badgeColor: '#f59e0b', badgeBg: 'rgba(245,158,11,0.18)' },
+  { initials: 'RD', avatarBg: '#0fb989', name: 'Roberto Díaz',  last: 'hace 1h',    badge: 'Regular', badgeColor: '#94a3b8', badgeBg: 'rgba(148,163,184,0.15)' },
+  { initials: 'AL', avatarBg: '#7c3aed', name: 'Ana López',     last: 'hace 3h',    badge: 'Nuevo',   badgeColor: '#60a5fa', badgeBg: 'rgba(96,165,250,0.18)'  },
+  { initials: 'CR', avatarBg: '#475569', name: 'Carlos Ruiz',   last: 'ayer',       badge: 'Regular', badgeColor: '#94a3b8', badgeBg: 'rgba(148,163,184,0.15)' },
 ]
 const barData = [18, 31, 24, 40, 36, 52, 47]
 const barDays = ['L','M','X','J','V','S','D']
 
-const tabs    = ['Dashboard', 'Citas', 'Clientes', 'Reportes']
+const tabs    = ['Métricas', 'Citas', 'Asistente IA', 'Clientes', 'Reportes']
 const tabUrls = [
   'app.digitaliza.mx/dashboard',
   'app.digitaliza.mx/citas',
+  'app.digitaliza.mx/asistente',
   'app.digitaliza.mx/clientes',
   'app.digitaliza.mx/reportes',
 ]
@@ -73,7 +81,7 @@ export default function DashboardMockup() {
               transition={{ duration: 0.22, ease: 'easeOut' }}
               style={{ padding: '14px 16px', height: '100%', overflow: 'hidden' }}>
 
-              {/* ── DASHBOARD ── */}
+              {/* ── MÉTRICAS ── */}
               {activeTab === 0 && (
                 <>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginBottom: 12 }}>
@@ -160,19 +168,41 @@ export default function DashboardMockup() {
                 </>
               )}
 
-              {/* ── CLIENTES ── */}
+              {/* ── ASISTENTE IA ── */}
               {activeTab === 2 && (
                 <>
-                  <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Base de clientes</div>
+                  {/* Header */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', background: 'rgba(255,255,255,0.04)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.07)', marginBottom: 12 }}>
+                    <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#fff', flexShrink: 0 }}>DZ</div>
+                    <span style={{ flex: 1, fontWeight: 600, fontSize: '0.88rem', color: '#ffffff' }}>Freddy · IA activa</span>
+                    <span className="pulse-dot" style={{ width: 8, height: 8, borderRadius: '50%', background: '#22c55e', flexShrink: 0, display: 'inline-block' }} />
+                  </div>
+                  {/* Items */}
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+                    {iaItems.map(item => (
+                      <div key={item.text} style={{ padding: '12px 12px', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <span style={{ color: '#2563eb', flexShrink: 0 }}>{item.icon}</span>
+                        <span style={{ flex: 1, fontSize: '0.88rem', color: '#ffffff', lineHeight: 1.3 }}>{item.text}</span>
+                        <span style={{ padding: '3px 9px', borderRadius: 9999, fontSize: '0.7rem', fontWeight: 600, background: item.badgeBg, color: item.badgeColor, flexShrink: 0, whiteSpace: 'nowrap' }}>{item.badge}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* ── CLIENTES ── */}
+              {activeTab === 3 && (
+                <>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12, fontFamily: 'monospace' }}>Clientes recientes</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                     {clientesList.map(c => (
                       <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.7)', flexShrink: 0 }}>
-                          {c.name.split(' ').map(n => n[0]).join('').slice(0,2)}
+                        <div style={{ width: 34, height: 34, borderRadius: '50%', background: c.avatarBg, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#fff', flexShrink: 0 }}>
+                          {c.initials}
                         </div>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontSize: 13, fontWeight: 600, color: '#e9edef', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</div>
-                          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>Último mensaje {c.last}</div>
+                          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>Último mensaje: {c.last}</div>
                         </div>
                         <span style={{ fontSize: 10, fontWeight: 700, color: c.badgeColor, background: c.badgeBg, padding: '3px 9px', borderRadius: 100, flexShrink: 0, whiteSpace: 'nowrap' }}>{c.badge}</span>
                       </div>
@@ -182,14 +212,14 @@ export default function DashboardMockup() {
               )}
 
               {/* ── REPORTES ── */}
-              {activeTab === 3 && (
+              {activeTab === 4 && (
                 <>
                   <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Resumen semanal</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
                     {[
-                      { val: '94%',    label: 'Tasa de respuesta',  color: '#25D366', pct: 94 },
-                      { val: '4.9 / 5', label: 'Satisfacción',      color: '#60a5fa', pct: 98 },
-                      { val: '18s',    label: 'Tiempo promedio',    color: '#0fb989', pct: 72 },
+                      { val: '94%',    label: 'Tasa de respuesta', color: '#25D366', pct: 94 },
+                      { val: '4.9 / 5', label: 'Satisfacción',    color: '#60a5fa', pct: 98 },
+                      { val: '18s',    label: 'Tiempo promedio',   color: '#0fb989', pct: 72 },
                     ].map(m => (
                       <div key={m.label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(255,255,255,0.06)' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 10 }}>
@@ -210,23 +240,23 @@ export default function DashboardMockup() {
         </div>
       </div>
 
-      {/* Tab switcher — scrolleable en mobile */}
+      {/* Tab switcher — scrolleable horizontalmente */}
       <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', marginTop: 14, paddingBottom: 2 }}>
         <div style={{ display: 'flex', gap: 6, width: 'max-content', margin: '0 auto' }}>
           {tabs.map((tab, i) => (
             <button key={tab} onClick={() => setActiveTab(i)}
               style={{
-                padding: '8px 20px',
+                padding: '8px 18px',
                 borderRadius: 9999,
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: 12,
                 fontWeight: 600,
+                whiteSpace: 'nowrap',
                 background: activeTab === i ? '#0b1120' : 'rgba(15,23,42,0.06)',
                 color: activeTab === i ? '#ffffff' : '#64748b',
                 transition: 'background 0.2s, color 0.2s',
                 letterSpacing: '-0.01em',
-                whiteSpace: 'nowrap',
               }}>
               {tab}
             </button>
