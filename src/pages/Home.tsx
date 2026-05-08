@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import {
   MessageCircle, Zap, Link2, BarChart3, Gift, ClipboardCheck,
   Star, RotateCcw, Sparkles, Check, ArrowRight,
-  Calendar, FileText, Target, Globe, Briefcase,
+  Calendar, FileText, Globe, Briefcase,
   BarChart2, Megaphone, Wifi, BatteryMedium,
 } from 'lucide-react'
 import Navbar from '../components/Navbar'
