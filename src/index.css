@@ -70,10 +70,6 @@ body {
   .dashboard-mockup-root {
     min-height: 360px !important;
   }
-  /* WhatsApp chat body: fixed height to prevent layout jumps */
-  .chat-body {
-    height: 280px !important;
-  }
   /* Hero panels: force full width and reduce horizontal padding */
   .hero-split > div {
     width: 100% !important;

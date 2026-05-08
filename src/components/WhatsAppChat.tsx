@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 
 const msgs = [
   { from: 'user', text: '¿Tienen cita disponible mañana a las 4pm?' },
@@ -8,39 +8,20 @@ const msgs = [
   { from: 'bot',  text: 'Confirmada mañana 4:00 PM. Te recuerdo 1h antes.' },
 ]
 
-function TypingIndicator() {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 4, padding: '10px 14px', background: '#1e2428', borderRadius: '12px 12px 12px 2px', width: 'fit-content', alignSelf: 'flex-start' }}>
-      {[0, 1, 2].map(i => (
-        <motion.div key={i}
-          style={{ width: 6, height: 6, borderRadius: '50%', background: 'rgba(255,255,255,0.35)' }}
-          animate={{ y: [0, -4, 0] }}
-          transition={{ duration: 0.75, repeat: Infinity, delay: i * 0.15 }} />
-      ))}
-    </div>
-  )
-}
-
 export default function WhatsAppChat() {
   const [visible, setVisible] = useState<number[]>([])
-  const [typing, setTyping] = useState(false)
 
   useEffect(() => {
     let cancelled = false
     const run = async () => {
       while (!cancelled) {
         setVisible([])
-        setTyping(false)
         await delay(600)
         for (let i = 0; i < msgs.length && !cancelled; i++) {
-          if (msgs[i].from === 'bot') {
-            setTyping(true)
-            await delay(1400)
-            if (cancelled) break
-            setTyping(false)
-          }
+          if (msgs[i].from === 'bot') await delay(1400)
+          if (cancelled) break
           setVisible(v => [...v, i])
-          await delay(i === msgs.length - 1 ? 3000 : 1100)
+          await delay(i === msgs.length - 1 ? 3500 : 1100)
         }
         if (!cancelled) await delay(800)
       }
@@ -71,50 +52,41 @@ export default function WhatsAppChat() {
         </div>
       </div>
 
-      {/* Chat body */}
-      <div className="chat-body" style={{
+      {/* Chat body — todos los mensajes siempre en DOM, visibility via opacity */}
+      <div style={{
         background: '#0d1117',
         padding: 16,
-        height: 320,
-        overflowY: 'hidden',
         overflowX: 'hidden',
+        overflowY: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         gap: 10,
       }}>
-        <AnimatePresence>
-          {msgs.map((m, i) =>
-            visible.includes(i) ? (
-              <motion.div key={i}
-                initial={{ opacity: 0, x: m.from === 'user' ? 20 : -20, scale: 0.97 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.28 }}
-                style={{ display: 'flex', flexDirection: 'column', alignItems: m.from === 'user' ? 'flex-end' : 'flex-start' }}>
-                <div style={{
-                  background: m.from === 'user' ? '#128C7E' : '#1e2428',
-                  borderRadius: m.from === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
-                  padding: '10px 14px',
-                  maxWidth: '78%',
-                  fontSize: 14,
-                  color: m.from === 'user' ? '#ffffff' : 'rgba(255,255,255,0.9)',
-                  lineHeight: 1.45,
-                }}>
-                  {m.text}
-                  <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 3, marginTop: 4 }}>
-                    <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11 }}>{time}</span>
-                    {m.from === 'bot' && <span style={{ color: '#22c55e', fontSize: 11 }}>leído</span>}
-                  </div>
-                </div>
-              </motion.div>
-            ) : null
-          )}
-        </AnimatePresence>
-        {typing && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            <TypingIndicator />
+        {msgs.map((m, i) => (
+          <motion.div key={i}
+            animate={{
+              opacity: visible.includes(i) ? 1 : 0,
+              x: visible.includes(i) ? 0 : (m.from === 'user' ? 16 : -16),
+            }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: m.from === 'user' ? 'flex-end' : 'flex-start' }}>
+            <div style={{
+              background: m.from === 'user' ? '#128C7E' : '#1e2428',
+              borderRadius: m.from === 'user' ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
+              padding: '10px 14px',
+              maxWidth: '78%',
+              fontSize: 14,
+              color: m.from === 'user' ? '#ffffff' : 'rgba(255,255,255,0.9)',
+              lineHeight: 1.45,
+            }}>
+              {m.text}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 3, marginTop: 4 }}>
+                <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: 11 }}>{time}</span>
+                {m.from === 'bot' && <span style={{ color: '#22c55e', fontSize: 11 }}>leído</span>}
+              </div>
+            </div>
           </motion.div>
-        )}
+        ))}
       </div>
 
       {/* Input bar */}
