@@ -78,6 +78,15 @@ body {
     padding-left: 24px !important;
     padding-right: 24px !important;
   }
+  /* Dashboard mockup column */
+  .dashboard-col {
+    width: 100%;
+    padding-left: 24px;
+    padding-right: 24px;
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+  }
 }
 @media (max-width: 600px) {
   .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }

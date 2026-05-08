@@ -271,9 +271,11 @@ export default function Home() {
       <section style={secWrap()}>
         <div style={secInner}>
           <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 80, alignItems: 'center' }} className="two-col">
-            <FadeUp>
-              <DashboardMockup />
-            </FadeUp>
+            <div className="dashboard-col">
+              <FadeUp>
+                <DashboardMockup />
+              </FadeUp>
+            </div>
             <FadeUp delay={0.15}>
               <SectionLabel text="04 / APP PROPIA" />
               <h2 style={{ ...h2, fontSize: 'clamp(1.6rem, 3vw, 2.4rem)', marginBottom: 16 }}>Tu app, tu marca, tu control.</h2>
