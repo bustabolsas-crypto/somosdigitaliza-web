@@ -19,11 +19,22 @@ const citas = [
   { time: '2:00 PM',  name: 'Ana López',     status: 'Confirmada', color: '#25D366' },
   { time: '4:00 PM',  name: 'Carlos Ruiz',   status: 'Pendiente',  color: '#D4AF37' },
 ]
+const clientesList = [
+  { name: 'María García',  last: 'hace 2 min',   badge: 'VIP',     badgeColor: '#f59e0b', badgeBg: 'rgba(245,158,11,0.18)' },
+  { name: 'Roberto Díaz',  last: 'hace 1 hora',  badge: 'Regular', badgeColor: '#60a5fa', badgeBg: 'rgba(96,165,250,0.15)' },
+  { name: 'Ana López',     last: 'hace 3 horas', badge: 'Nuevo',   badgeColor: '#25D366', badgeBg: 'rgba(37,211,102,0.15)' },
+  { name: 'Carlos Ruiz',   last: 'ayer',         badge: 'Regular', badgeColor: '#60a5fa', badgeBg: 'rgba(96,165,250,0.15)' },
+]
 const barData = [18, 31, 24, 40, 36, 52, 47]
 const barDays = ['L','M','X','J','V','S','D']
 
-const tabs = ['Dashboard', 'Citas']
-const tabUrls = ['app.digitaliza.mx/dashboard', 'app.digitaliza.mx/citas']
+const tabs    = ['Dashboard', 'Citas', 'Clientes', 'Reportes']
+const tabUrls = [
+  'app.digitaliza.mx/dashboard',
+  'app.digitaliza.mx/citas',
+  'app.digitaliza.mx/clientes',
+  'app.digitaliza.mx/reportes',
+]
 
 export default function DashboardMockup() {
   const [states, setStates] = useState([0, 1, 2, 0])
@@ -39,13 +50,13 @@ export default function DashboardMockup() {
   const barMax = Math.max(...barData)
 
   return (
-    <div className="w-full max-w-full" style={{ fontFamily: 'Inter, sans-serif' }}>
-      {/* Mockup box — fixed height so content never overflows */}
-      <div className="w-full max-w-full dashboard-mockup-root"
-        style={{ background: '#0d1117', borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', height: 420, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+    <div style={{ overflowX: 'hidden', width: '100%', maxWidth: '100%', fontFamily: 'Inter, sans-serif' }}>
+      {/* Mockup box */}
+      <div className="dashboard-mockup-root"
+        style={{ background: '#0d1117', borderRadius: 16, border: '1px solid rgba(255,255,255,0.08)', height: 420, display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%' }}>
 
         {/* Browser bar */}
-        <div style={{ background: '#1a1f2e', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, minWidth: 0, flexShrink: 0 }}>
+        <div style={{ background: '#1a1f2e', padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ff5f57', flexShrink: 0 }} />
           <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#febc2e', flexShrink: 0 }} />
           <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#28c840', flexShrink: 0 }} />
@@ -62,13 +73,13 @@ export default function DashboardMockup() {
               transition={{ duration: 0.22, ease: 'easeOut' }}
               style={{ padding: '14px 16px', height: '100%', overflow: 'hidden' }}>
 
+              {/* ── DASHBOARD ── */}
               {activeTab === 0 && (
                 <>
-                  {/* Stats — 3 cards */}
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginBottom: 12, minWidth: 0 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 8, marginBottom: 12 }}>
                     {[
-                      { label: 'ATENDIDOS', val: '47',   color: '#0fb989' },
-                      { label: 'CITAS HOY', val: '12',   color: '#D4AF37' },
+                      { label: 'ATENDIDOS', val: '47',    color: '#0fb989' },
+                      { label: 'CITAS HOY', val: '12',    color: '#D4AF37' },
                       { label: 'INGRESOS',  val: '$8.4k', color: '#f5f5f5' },
                     ].map(s => (
                       <div key={s.label} style={{ background: 'rgba(255,255,255,0.04)', borderRadius: 10, padding: '8px 10px', border: '1px solid rgba(255,255,255,0.06)' }}>
@@ -78,7 +89,6 @@ export default function DashboardMockup() {
                     ))}
                   </div>
 
-                  {/* Mini bar chart — mensajes esta semana */}
                   <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '10px 12px', marginBottom: 12, border: '1px solid rgba(255,255,255,0.05)' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
                       <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.5)', fontWeight: 600, letterSpacing: '0.06em' }}>MENSAJES ESTA SEMANA</span>
@@ -94,10 +104,9 @@ export default function DashboardMockup() {
                     </div>
                   </div>
 
-                  {/* Metrics row */}
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
                     {[
-                      { label: 'Tasa respuesta', val: '94%', color: '#25D366', pct: 94 },
+                      { label: 'Tasa respuesta', val: '94%',    color: '#25D366', pct: 94 },
                       { label: 'Satisfacción',   val: '4.9 / 5', color: '#60a5fa', pct: 98 },
                     ].map(m => (
                       <div key={m.label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 10, padding: '8px 10px', border: '1px solid rgba(255,255,255,0.05)' }}>
@@ -112,7 +121,6 @@ export default function DashboardMockup() {
                     ))}
                   </div>
 
-                  {/* Client list */}
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
                     {clients.map((c, i) => (
                       <div key={c.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, padding: '7px 10px', background: 'rgba(255,255,255,0.03)', borderRadius: 8, border: '1px solid rgba(255,255,255,0.05)', minWidth: 0 }}>
@@ -133,6 +141,7 @@ export default function DashboardMockup() {
                 </>
               )}
 
+              {/* ── CITAS ── */}
               {activeTab === 1 && (
                 <>
                   <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Hoy — Jueves 8 Mayo</div>
@@ -151,30 +160,78 @@ export default function DashboardMockup() {
                 </>
               )}
 
+              {/* ── CLIENTES ── */}
+              {activeTab === 2 && (
+                <>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>Base de clientes</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                    {clientesList.map(c => (
+                      <div key={c.name} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 12px', background: 'rgba(255,255,255,0.03)', borderRadius: 10, border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(255,255,255,0.06)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.7)', flexShrink: 0 }}>
+                          {c.name.split(' ').map(n => n[0]).join('').slice(0,2)}
+                        </div>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 13, fontWeight: 600, color: '#e9edef', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{c.name}</div>
+                          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginTop: 2 }}>Último mensaje {c.last}</div>
+                        </div>
+                        <span style={{ fontSize: 10, fontWeight: 700, color: c.badgeColor, background: c.badgeBg, padding: '3px 9px', borderRadius: 100, flexShrink: 0, whiteSpace: 'nowrap' }}>{c.badge}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
+              {/* ── REPORTES ── */}
+              {activeTab === 3 && (
+                <>
+                  <div style={{ fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,0.35)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 14 }}>Resumen semanal</div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                    {[
+                      { val: '94%',    label: 'Tasa de respuesta',  color: '#25D366', pct: 94 },
+                      { val: '4.9 / 5', label: 'Satisfacción',      color: '#60a5fa', pct: 98 },
+                      { val: '18s',    label: 'Tiempo promedio',    color: '#0fb989', pct: 72 },
+                    ].map(m => (
+                      <div key={m.label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 12, padding: '14px 16px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 10 }}>
+                          <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>{m.label}</span>
+                          <span style={{ fontSize: 28, fontWeight: 800, color: m.color, lineHeight: 1, letterSpacing: '-0.03em' }}>{m.val}</span>
+                        </div>
+                        <div style={{ height: 4, background: 'rgba(255,255,255,0.08)', borderRadius: 9999 }}>
+                          <div style={{ height: '100%', width: `${m.pct}%`, background: m.color, borderRadius: 9999 }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
+
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
 
-      {/* Tab switcher */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 14 }}>
-        {tabs.map((tab, i) => (
-          <button key={tab} onClick={() => setActiveTab(i)}
-            style={{
-              padding: '8px 20px',
-              borderRadius: 9999,
-              border: 'none',
-              cursor: 'pointer',
-              fontSize: 12,
-              fontWeight: 600,
-              background: activeTab === i ? '#0b1120' : 'rgba(15,23,42,0.06)',
-              color: activeTab === i ? '#ffffff' : '#64748b',
-              transition: 'background 0.2s, color 0.2s',
-              letterSpacing: '-0.01em',
-            }}>
-            {tab}
-          </button>
-        ))}
+      {/* Tab switcher — scrolleable en mobile */}
+      <div style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch', marginTop: 14, paddingBottom: 2 }}>
+        <div style={{ display: 'flex', gap: 6, width: 'max-content', margin: '0 auto' }}>
+          {tabs.map((tab, i) => (
+            <button key={tab} onClick={() => setActiveTab(i)}
+              style={{
+                padding: '8px 20px',
+                borderRadius: 9999,
+                border: 'none',
+                cursor: 'pointer',
+                fontSize: 12,
+                fontWeight: 600,
+                background: activeTab === i ? '#0b1120' : 'rgba(15,23,42,0.06)',
+                color: activeTab === i ? '#ffffff' : '#64748b',
+                transition: 'background 0.2s, color 0.2s',
+                letterSpacing: '-0.01em',
+                whiteSpace: 'nowrap',
+              }}>
+              {tab}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
