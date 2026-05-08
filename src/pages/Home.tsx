@@ -271,7 +271,7 @@ export default function Home() {
       <section style={secWrap()}>
         <div style={secInner}>
           <div style={{ display: 'grid', gridTemplateColumns: '7fr 5fr', gap: 80, alignItems: 'center' }} className="two-col">
-            <FadeUp>
+            <FadeUp style={{ minWidth: 0, width: '100%' }}>
               <DashboardMockup />
             </FadeUp>
             <FadeUp delay={0.15}>
